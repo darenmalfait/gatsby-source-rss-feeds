@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-rss-feeds",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "gatsby source parser for rss feeds",
   "main": "gatsby-node.js",
   "scripts": {
