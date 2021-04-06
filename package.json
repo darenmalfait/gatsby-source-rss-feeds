@@ -1,0 +1,49 @@
+{
+  "name": "gatsby-source-rss-feeds",
+  "version": "1.0.1",
+  "description": "gatsby source parser for rss feeds",
+  "main": "gatsby-node.js",
+  "scripts": {
+    "build": "tsc && tsc -t ES5 --outDir .",
+    "format": "prettier-eslint --write src/**/*.{ts,tsx}",
+    "watch": "tsc --watch & tsc && tsc -t ES5 --outDir . --watch",
+    "prepare": "cross-env NODE_ENV=production npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daren-malfait/gatsby-source-rss-feeds.git"
+  },
+  "keywords": [
+    "gatsby",
+    "source",
+    "rss"
+  ],
+  "author": "Daren Malfait",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daren-malfait/gatsby-source-rss-feeds/issues"
+  },
+  "homepage": "https://github.com/daren-malfait/gatsby-source-rss-feeds#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.23.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.23.1",
+    "gatsby": "^3.2.1",
+    "prettier": "^2.2.1",
+    "prettier-eslint": "^12.0.0",
+    "prettier-eslint-cli": "^5.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "^4.21.0",
+    "crypto": "^1.0.1",
+    "lodash": "^4.17.21",
+    "rss-parser": "^3.12.0"
+  }
+}
