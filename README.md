@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/gatsby-source-rss-feeds.svg)](https://badge.fury.io/js/gatsby-source-rss-feeds)
 
-Source plugin for pulling data into Gatsby from RSS feed based on [gatsby-source-rss-feeds-feed](https://github.com/mottox2/gatsby-source-rss-feeds-feed).
+Source plugin for pulling data into Gatsby from RSS feed based on [gatsby-source-rss-feed](https://github.com/mottox2/gatsby-source-rss-feed).
 
 ## Install
 
