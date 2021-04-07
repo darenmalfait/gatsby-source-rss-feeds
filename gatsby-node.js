@@ -105,11 +105,11 @@ var createContentDigest = function (obj) {
 };
 var sourceNodes = function (_a, _b) {
     var actions = _a.actions, createNodeId = _a.createNodeId;
-    var url = _b.url, _c = _b.name, name = _c === void 0 ? "blog" : _c;
+    var url = _b.url, name = _b.name;
     return __awaiter(void 0, void 0, void 0, function () {
         var createNode, parser, feed, items;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     if (!url) {
                         throw new Error("url is required.");
@@ -121,7 +121,7 @@ var sourceNodes = function (_a, _b) {
                     parser = new rss_parser_1.default();
                     return [4 /*yield*/, parser.parseURL(url)];
                 case 1:
-                    feed = _d.sent();
+                    feed = _c.sent();
                     items = feed.items;
                     items.forEach(function (item) {
                         var normalizedItem = normalize(item);

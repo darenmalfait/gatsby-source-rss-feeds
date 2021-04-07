@@ -60,7 +60,7 @@ const createContentDigest = (obj: { [key: string]: any } & Parser.Item) =>
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async (
   { actions, createNodeId }: SourceNodesArgs,
-  { url, name = `blog` }: PluginConfig
+  { url, name }: PluginConfig
 ): Promise<void> => {
   if (!url) {
     throw new Error(`url is required.`);
