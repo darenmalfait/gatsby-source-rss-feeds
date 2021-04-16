@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 import { GatsbyNode, SourceNodesArgs, PluginOptions } from 'gatsby';
 import Parser from 'rss-parser';
 import omitBy from 'lodash/omitBy';
@@ -40,8 +40,8 @@ const invalidkeys = [`$`, `_`];
 const clearInvalid = obj => {
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === `object`) {
-      const isInvalid = Object.keys(obj[key]).filter(value =>
-        invalidkeys.includes(value)
+      const isInvalid = Object.keys(obj[key]).filter(
+        value => invalidkeys.indexOf(value) > -1,
       ).length;
 
       if (isInvalid) {
@@ -60,7 +60,7 @@ const createContentDigest = (obj: { [key: string]: any } & Parser.Item) =>
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async (
   { actions, createNodeId }: SourceNodesArgs,
-  { url, name }: PluginConfig
+  { url, name }: PluginConfig,
 ): Promise<void> => {
   if (!url) {
     throw new Error(`url is required.`);

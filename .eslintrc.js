@@ -1,42 +1,58 @@
 module.exports = {
   parser: `@typescript-eslint/parser`,
   extends: [`google`, `eslint:recommended`, `prettier`],
-  plugins: [`prettier`, `react`],
+  plugins: [`prettier`, `babel`],
   parserOptions: {
-    ecmaVersion: 2016,
+    ecmaVersion: 2018,
     sourceType: `module`,
-    ecmaFeatures: {
-      jsx: true,
-    },
-    requireConfigFile: false,
   },
   env: {
     browser: true,
-    es6: true,
     node: true,
-    jest: true,
-  },
-  globals: {
-    before: true,
-    after: true,
-    spyOn: true,
-    NodeJS: true,
-    JSX: true,
-    NodeRequire: true,
-    TimerHandler: true,
-    __PATH_PREFIX__: true,
-    __BASE_PATH__: true,
-    __ASSET_PREFIX__: true,
+    es6: true,
   },
   rules: {
-    'no-unused-expressions': `off`,
-    'no-invalid-this': `off`,
-    'arrow-body-style': [
+    'arrow-body-style': `off`,
+    'object-shorthand': [`error`, `properties`], // methods are optional so you can specify a name if you want
+    'prefer-arrow-callback': [
       `error`,
-      `as-needed`,
-      { requireReturnForObjectLiteral: true },
+      { allowNamedFunctions: true, allowUnboundThis: true },
     ],
+    'prefer-destructuring': `off`, // nah, I like it, but not that much...
+    'sort-imports': `off`,
+    'babel/camelcase': `off`,
     'new-cap': `off`,
+    'babel/new-cap': [
+      `error`,
+      {
+        newIsCap: true,
+        capIsNew: true,
+      },
+    ],
+    'no-invalid-this': `off`,
+    'babel/no-invalid-this': `error`,
+    'no-class-assign': `error`,
+    'no-duplicate-imports': `error`,
+    'no-restricted-exports': `off`, // not applicable for a config preset (should be configured only in projects)
+    'no-restricted-imports': `off`, // not applicable for a config preset (should be configured only in projects)
+    'no-useless-computed-key': `error`,
+    'no-useless-constructor': `error`,
+    'no-useless-rename': `error`,
+    'no-var': `error`,
+    'prefer-const': `error`,
+    'prefer-numeric-literals': `error`,
+    'prefer-rest-params': `error`,
+    'prefer-spread': `error`,
+    'prefer-template': `error`,
+    'require-yield': `error`,
+    'symbol-description': `error`,
+    'constructor-super': `error`,
+    'no-const-assign': `error`,
+    'no-dupe-class-members': `error`,
+    'no-new-symbol': `error`,
+    'no-this-before-super': `error`,
+    'no-unsafe-optional-chaining': `error`,
+    'no-unused-expressions': `off`,
     'no-unused-vars': [
       `warn`,
       {
@@ -45,54 +61,50 @@ module.exports = {
         ignoreRestSiblings: true,
       },
     ],
-    'consistent-return': [`error`],
-    'no-console': `off`,
-    'no-inner-declarations': `off`,
-    quotes: [`error`, `backtick`],
-    'react/display-name': `off`,
-    'react/jsx-key': `warn`,
-    'react/no-unescaped-entities': `off`,
-    'react/prop-types': `off`,
+    'babel/no-unused-expressions': `error`,
+    'valid-typeof': `off`,
+    'babel/valid-typeof': `error`,
     'require-jsdoc': `off`,
     'valid-jsdoc': `off`,
-    'prefer-promise-reject-errors': `warn`,
-    'no-prototype-builtins': `warn`,
-    'guard-for-in': `warn`,
-    'spaced-comment': [
-      `error`,
-      `always`,
-      { markers: [`/`], exceptions: [`*`, `+`] },
-    ],
-    camelcase: [
-      `error`,
-      {
-        properties: `never`,
-        ignoreDestructuring: true,
-        allow: [`^unstable_`],
-      },
-    ],
   },
   overrides: [
     {
-      files: [`*.ts`, `*.tsx`],
+      files: [`**/*.ts?(x)`],
       parser: `@typescript-eslint/parser`,
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: `module`,
+      },
       plugins: [`@typescript-eslint/eslint-plugin`],
       extends: [`plugin:@typescript-eslint/recommended`],
       rules: {
-        // We should absolutely avoid using ts-ignore, but it's not always possible.
-        // particular when a dependencies types are incorrect.
-        '@typescript-eslint/ban-ts-comment': [
+        'babel/no-invalid-this': `off`,
+        '@typescript-eslint/no-invalid-this': `error`,
+        'no-var': `error`, // ts transpiles let/const to var, so no need for vars any more
+        'prefer-const': `error`, // ts provides better types with const
+        'prefer-rest-params': `error`, // ts provides better types with rest args over arguments
+        'prefer-spread': `error`, // ts transpiles spread to apply, so no need for manual apply
+        'no-duplicate-imports': `off`,
+        '@typescript-eslint/no-duplicate-imports': `error`,
+        'no-useless-constructor': `off`,
+        '@typescript-eslint/no-useless-constructor': `error`,
+        'constructor-super': `off`, // ts(2335) & ts(2377)
+        'no-const-assign': `off`, // ts(2588)
+        'no-new-symbol': `off`, // ts(2588)
+        'no-this-before-super': `off`, // ts(2376)
+        'babel/valid-typeof': `off`, // ts(2367)
+        'no-dupe-class-members': `off`,
+        '@typescript-eslint/no-dupe-class-members': `off`, // ts(2393) & ts(2300)
+        'babel/no-unused-expressions': `off`,
+        '@typescript-eslint/no-unused-expressions': `error`,
+        '@typescript-eslint/explicit-module-boundary-types': [
           `warn`,
-          { 'ts-ignore': `allow-with-description` },
+          {
+            allowArgumentsExplicitlyTypedAsAny: true,
+          },
         ],
-        // This rule is great. It helps us not throw on types for areas that are
-        // easily inferrable. However we have a desire to have all function inputs
-        // and outputs declaratively typed. So this let's us ignore the parameters
-        // inferrable lint.
-        '@typescript-eslint/no-inferrable-types': [
-          `error`,
-          { ignoreParameters: true },
-        ],
+        '@typescript-eslint/no-empty-function': `off`,
+        '@typescript-eslint/no-explicit-any': `off`,
         '@typescript-eslint/ban-types': [
           `error`,
           {
@@ -163,55 +175,6 @@ module.exports = {
             leadingUnderscore: `allowSingleOrDouble`,
           },
         ],
-        // This rule tries to prevent using `require()`. However in node code,
-        // there are times where this makes sense. And it specifically is causing
-        // problems in our tests where we often want this functionality for module
-        // mocking. At this point it's easier to have it off and just encourage
-        // using top-level imports via code reviews.
-        '@typescript-eslint/no-var-requires': `off`,
-        '@typescript-eslint/no-extra-semi': `off`,
-        // This rule ensures that typescript types do not have semicolons
-        // at the end of their lines, since our prettier setup is to have no semicolons
-        // e.g.,
-        // interface Foo {
-        // -  baz: string;
-        // +  baz: string
-        // }
-        '@typescript-eslint/no-empty-function': `off`,
-        // This ensures that we always type the return type of functions
-        // a high level focus of our TS setup is typing fn inputs and outputs.
-        '@typescript-eslint/explicit-function-return-type': `off`,
-        '@typescript-eslint/explicit-module-boundary-types': [
-          `warn`,
-          {
-            allowArgumentsExplicitlyTypedAsAny: true,
-          },
-        ],
-        '@typescript-eslint/no-explicit-any': `off`,
-        // This forces us to use interfaces over types aliases for object definitions.
-        // Type is still useful for opaque types
-        // e.g.,
-        // type UUID = string
-        '@typescript-eslint/consistent-type-definitions': [
-          `error`,
-          `interface`,
-        ],
-        '@typescript-eslint/no-use-before-define': [
-          `error`,
-          { functions: false },
-        ],
-        // Allows us to write unions like `type Foo = "baz" | "bar"`
-        // otherwise eslint will want to switch the strings to backticks,
-        // which then crashes the ts compiler
-        quotes: `off`,
-        '@typescript-eslint/quotes': [
-          2,
-          `backtick`,
-          {
-            avoidEscape: true,
-          },
-        ],
-        '@typescript-eslint/array-type': [`error`, { default: `generic` }],
       },
     },
   ],

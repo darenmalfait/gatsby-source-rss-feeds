@@ -10,6 +10,25 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,28 +65,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.sourceNodes = void 0;
-var crypto_1 = __importDefault(require("crypto"));
+var crypto = __importStar(require("crypto"));
 var rss_parser_1 = __importDefault(require("rss-parser"));
 var omitBy_1 = __importDefault(require("lodash/omitBy"));
 var normalize = function (item) {
@@ -77,21 +80,19 @@ var normalize = function (item) {
     }
     var namespaced = {};
     namespaceMatched.forEach(function (key) {
-        var _a = __read(key.split(":"), 2), namespace = _a[0], childKey = _a[1];
+        var _a = key.split(":"), namespace = _a[0], childKey = _a[1];
         if (!namespaced[namespace]) {
             namespaced[namespace] = {};
         }
         namespaced[namespace][childKey] = item[key];
     });
-    return __assign(__assign({}, omitBy_1.default(item, function (_, key) { return key.match(/:/); })), namespaced);
+    return __assign(__assign({}, omitBy_1["default"](item, function (_, key) { return key.match(/:/); })), namespaced);
 };
 var invalidkeys = ["$", "_"];
 var clearInvalid = function (obj) {
     Object.keys(obj).forEach(function (key) {
         if (typeof obj[key] === "object") {
-            var isInvalid = Object.keys(obj[key]).filter(function (value) {
-                return invalidkeys.includes(value);
-            }).length;
+            var isInvalid = Object.keys(obj[key]).filter(function (value) { return invalidkeys.indexOf(value) > -1; }).length;
             if (isInvalid) {
                 return (obj[key] = "");
             }
@@ -101,7 +102,7 @@ var clearInvalid = function (obj) {
     });
 };
 var createContentDigest = function (obj) {
-    return crypto_1.default.createHash("md5").update(JSON.stringify(obj)).digest("hex");
+    return crypto.createHash("md5").update(JSON.stringify(obj)).digest("hex");
 };
 var sourceNodes = function (_a, _b) {
     var actions = _a.actions, createNodeId = _a.createNodeId;
@@ -118,7 +119,7 @@ var sourceNodes = function (_a, _b) {
                         throw new Error("name is required.");
                     }
                     createNode = actions.createNode;
-                    parser = new rss_parser_1.default();
+                    parser = new rss_parser_1["default"]();
                     return [4 /*yield*/, parser.parseURL(url)];
                 case 1:
                     feed = _c.sent();
@@ -130,7 +131,7 @@ var sourceNodes = function (_a, _b) {
                         var nodeId = createNodeId(guid || link);
                         createNode(__assign(__assign({}, normalizedItem), { id: nodeId, parent: null, children: [], internal: {
                                 contentDigest: createContentDigest(item),
-                                type: "Feed" + name,
+                                type: "Feed" + name
                             } }));
                     });
                     return [2 /*return*/];

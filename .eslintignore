@@ -1,7 +1,3 @@
-.cache
 node_modules
-public
-graphql-types.d.ts
-package-lock.json
-schema.json
-yarn.lock
+coverage
+dist

@@ -1,49 +1,55 @@
 {
   "name": "gatsby-source-rss-feeds",
-  "version": "1.0.3",
+  "version": "0.0.0-semantically-released",
   "description": "gatsby source parser for rss feeds",
   "main": "gatsby-node.js",
-  "scripts": {
-    "build": "tsc && tsc -t ES5 --outDir .",
-    "format": "prettier-eslint --write src/**/*.{ts,tsx}",
-    "watch": "tsc --watch & tsc && tsc -t ES5 --outDir . --watch",
-    "prepare": "cross-env NODE_ENV=production npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/daren-malfait/gatsby-source-rss-feeds.git"
-  },
+  "types": "gatsby-node.d.ts",
   "keywords": [
     "gatsby",
     "source",
     "rss"
   ],
-  "author": "Daren Malfait",
+  "author": "Daren Malfait <me@daren.be> (https://daren.be)",
   "license": "MIT",
+  "engines": {
+    "node": ">=10",
+    "npm": ">=6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daren-malfait/gatsby-source-rss-feeds"
+  },
   "bugs": {
     "url": "https://github.com/daren-malfait/gatsby-source-rss-feeds/issues"
   },
   "homepage": "https://github.com/daren-malfait/gatsby-source-rss-feeds#readme",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "cross-env": "^7.0.3",
-    "eslint": "^7.23.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.23.1",
-    "gatsby": "^3.2.1",
-    "prettier": "^2.2.1",
-    "prettier-eslint": "^12.0.0",
-    "prettier-eslint-cli": "^5.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "typescript": "^4.2.3"
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --outDir .",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint './src/**/*.{js,ts}'",
+    "validate": "npm run build --silent && npm run lint --silent && npm run typecheck --silent"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^4.21.0",
-    "crypto": "^1.0.1",
-    "lodash": "^4.17.21",
+    "@babel/runtime": "^7.13.10",
+    "gatsby": "^3.3.0",
     "rss-parser": "^3.12.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@types/node": "^14.14.41",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.24.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^6.0.0",
+    "typescript": "^4.2.4"
   }
 }
