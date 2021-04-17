@@ -7,3 +7,8 @@ dist
 # when working with contributors
 package-lock.json
 yarn.lock
+
+# built files
+gatsby-node.d.ts
+gatsby-node.js
+gatsby-node.js.map
