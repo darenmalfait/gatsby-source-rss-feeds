@@ -62,6 +62,8 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async (
   { actions, createNodeId }: SourceNodesArgs,
   { url, name }: PluginConfig,
 ): Promise<void> => {
+  console.info(`[${name}] Fetching RSS feed...`);
+
   if (!url) {
     throw new Error(`url is required.`);
   }
@@ -71,26 +73,40 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async (
   }
 
   const { createNode } = actions;
-  const parser = new Parser();
+  const parser = new Parser({
+    headers: {'Accept': 'application/rss+xml, text/xml; q=0.1'},
+  });
 
-  const feed = await parser.parseURL(url);
-  const { items } = feed;
+  console.info('start fetching RSS');
 
-  (items as Array<RSSItem>).forEach((item: RSSItem) => {
-    const normalizedItem = normalize(item);
-    clearInvalid(normalizedItem);
+  parser.parseURL(url, (err, feed: any) => {
+    if(err){
+      console.error(err)
+      return
+    }
 
-    const { guid, link } = item;
-    const nodeId = createNodeId(guid || link);
-    createNode({
-      ...normalizedItem,
-      id: nodeId,
-      parent: null,
-      children: [],
-      internal: {
-        contentDigest: createContentDigest(item),
-        type: `Feed${name}`,
-      },
+    console.info(`fetched ${feed.items.length} items`);
+
+    (feed.items as Array<RSSItem>).forEach((item: RSSItem) => {
+      const normalizedItem = normalize(item);
+      clearInvalid(normalizedItem);
+
+      const { guid, link } = item;
+      const nodeId = createNodeId(guid || link);
+
+      console.log(`creating node ${nodeId}`);
+      createNode({
+        ...normalizedItem,
+        id: nodeId,
+        parent: null,
+        children: [],
+        internal: {
+          contentDigest: createContentDigest(item),
+          type: `Feed${name}`,
+        },
+      });
     });
   });
+
+  console.info('end fetching RSS');
 };

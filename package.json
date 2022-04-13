@@ -27,6 +27,7 @@
     "dist"
   ],
   "scripts": {
+    "dev": "cd test && gatsby develop",
     "build": "tsc --outDir .",
     "typecheck": "tsc --noEmit",
     "lint": "eslint './src/**/*.{js,ts}'",
@@ -49,6 +50,7 @@
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-prettier": "^3.3.1",
+    "gatsby-plugin-testing": "^0.3.5",
     "husky": "^6.0.0",
     "typescript": "^4.2.4"
   }
